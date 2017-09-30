@@ -21,8 +21,6 @@ Example
 -------
 
 ``` r
-library(css)
-
 # one rstudio css theme
 dracula <- paste0(
   "https://raw.githubusercontent.com/rstudio/rstudio/", 
@@ -34,7 +32,7 @@ dracula <- paste0(
 data <- read_css(dracula)
 
 # ... now it's a tibble ... 
-dplyr::glimpse(data)
+glimpse(data)
 #> Observations: 626
 #> Variables: 3
 #> $ rule    <chr> ".ace_gutter", ".ace_gutter", ".ace_print-margin", ".a...
@@ -48,18 +46,6 @@ DT::datatable(data)
 You can then tidyverse it a bit and then save it back to a file using `write_css`:
 
 ``` r
-library(dplyr)
-#> Warning: package 'dplyr' was built under R version 3.4.1
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
-library(readr)
-
 data <- data %>% 
   mutate( value = case_when(
     setting == "background-color" ~ "#ff0000", 

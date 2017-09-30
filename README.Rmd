@@ -14,6 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, include = FALSE}
+library(dplyr)
+library(readr)
+library(css)
+```
 
 # css
 
@@ -31,8 +36,6 @@ devtools::install_github("romainfrancois/css")
 ## Example
 
 ```{r example}
-library(css)
-
 # one rstudio css theme
 dracula <- paste0(
   "https://raw.githubusercontent.com/rstudio/rstudio/", 
@@ -44,16 +47,13 @@ dracula <- paste0(
 data <- read_css(dracula)
 
 # ... now it's a tibble ... 
-dplyr::glimpse(data)
+glimpse(data)
 DT::datatable(data)
 ```
 
 You can then tidyverse it a bit and then save it back to a file using `write_css`: 
 
 ```{r}
-library(dplyr)
-library(readr)
-
 data <- data %>% 
   mutate( value = case_when(
     setting == "background-color" ~ "#ff0000", 
