@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 # css
 
-The goal of `css` is to turn css files into tibbles
+`css` eases the manipulation of css files with the functions `read_css` and `write_css`. 
 
 ## Installation
 
@@ -29,8 +29,6 @@ devtools::install_github("romainfrancois/css")
 ```
 
 ## Example
-
-This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
 library(css)
@@ -49,3 +47,22 @@ data <- read_css(dracula)
 dplyr::glimpse(data)
 DT::datatable(data)
 ```
+
+You can then tidyverse it a bit and then save it back to a file using `write_css`: 
+
+```{r}
+library(dplyr)
+library(readr)
+
+data <- data %>% 
+  mutate( value = case_when(
+    setting == "background-color" ~ "#ff0000", 
+    TRUE                          ~ value
+  ))
+
+tf <- tempfile()
+write_css(data, tf)
+writeLines( read_lines(data, n_max = 10))
+```
+
+

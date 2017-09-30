@@ -13,5 +13,8 @@ Imports: readr,
     tibble,
     magrittr,
     stringr,
-    utils
+    utils,
+    glue,
+    dplyr
 RoxygenNote: 6.0.1.9000
+Roxygen: list(markdown = TRUE)

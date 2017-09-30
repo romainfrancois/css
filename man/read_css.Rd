@@ -7,15 +7,17 @@
 read_css(file, ...)
 }
 \arguments{
-\item{file}{css file to parse, read with [readr::read_file()] so can be a url}
+\item{file}{css file to parse, read with \code{\link[readr:read_file]{readr::read_file()}} so can be a url}
 
-\item{...}{`%>%` [readr::read_file()]}
+\item{...}{\code{\%&gt;\%} \code{\link[readr:read_file]{readr::read_file()}}}
 }
 \value{
-a tibble with columns
-- rule: the name of the css rule e.g. `.some-css-class`
-- setting: the name of a setting, e.g. `background-image`
-- value: value of the setting, e.g. `1px solid black`
+a tibble with columns:
+\itemize{
+\item rule: the name of the css rule e.g. \code{.some-css-class}
+\item setting: the name of a setting, e.g. \code{background-image}
+\item value: value of the setting, e.g. \code{1px solid black}
+}
 }
 \description{
 read a css file into a tibble
