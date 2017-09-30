@@ -3,9 +3,10 @@ not_empty <- function(x){
   x[ x != ""]
 }
 
-#' Parse css files into tibbles
+#' read a css file into a tibble
 #'
 #' @param file css file to parse, read with [readr::read_file()] so can be a url
+#' @param ... `%>%` [readr::read_file()]
 #'
 #' @return a tibble with columns
 #' - rule: the name of the css rule e.g. `.some-css-class`
@@ -20,9 +21,9 @@ not_empty <- function(x){
 #' @importFrom magrittr %>%
 #' @importFrom utils head
 #' @export
-read_css <- function( file ){
+read_css <- function( file, ... ){
 
-  rules <- read_file(file) %>%
+  rules <- read_file(file, ...) %>%
     gsub( "/[*].*?[*]/", "", . ) %>%
     str_split("[}]") %>%
     pluck(1) %>%

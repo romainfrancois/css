@@ -2,12 +2,14 @@
 % Please edit documentation in R/css.R
 \name{read_css}
 \alias{read_css}
-\title{Parse css files into tibbles}
+\title{read a css file into a tibble}
 \usage{
-read_css(file)
+read_css(file, ...)
 }
 \arguments{
 \item{file}{css file to parse, read with [readr::read_file()] so can be a url}
+
+\item{...}{`%>%` [readr::read_file()]}
 }
 \value{
 a tibble with columns
@@ -16,5 +18,5 @@ a tibble with columns
 - value: value of the setting, e.g. `1px solid black`
 }
 \description{
-Parse css files into tibbles
+read a css file into a tibble
 }
