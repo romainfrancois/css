@@ -1,0 +1,49 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+
+# css
+
+The goal of `css` is to turn css files into tibbles
+
+## Installation
+
+You can install css from github with:
+
+```{r gh-installation, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("romainfrancois/css")
+```
+
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example}
+library(css)
+
+# one rstudio css theme
+dracula <- paste0(
+  "https://raw.githubusercontent.com/rstudio/rstudio/", 
+  "0d9d49aa8671527370c6c261fc031ae8a8081c45/src/gwt/src/",   
+  "org/rstudio/studio/client/workbench/views/source/editors/text/themes/dracula.css"
+)
+
+# reading it with read_css
+data <- read_css(dracula)
+
+# ... now it's a tibble ... 
+dplyr::glimpse(data)
+DT::datatable(data)
+```

@@ -3,6 +3,15 @@ not_empty <- function(x){
   x[ x != ""]
 }
 
+#' Parse css files into tibbles
+#'
+#' @param file css file to parse, read with [readr::read_file()] so can be a url
+#'
+#' @return a tibble with columns
+#' - rule: the name of the css rule e.g. `.some-css-class`
+#' - setting: the name of a setting, e.g. `background-image`
+#' - value: value of the setting, e.g. `1px solid black`
+#'
 #' @importFrom stringr str_replace_all str_split str_trim
 #' @importFrom readr read_file
 #' @importFrom purrr pluck map map_chr
@@ -10,17 +19,18 @@ not_empty <- function(x){
 #' @importFrom tidyr separate unnest
 #' @importFrom magrittr %>%
 #' @importFrom utils head
+#' @export
 read_css <- function( file ){
 
   rules <- read_file(file) %>%
-    str_replace_all("[/][*].*[*][/]", "") %>%
+    gsub( "/[*].*?[*]/", "", . ) %>%
     str_split("[}]") %>%
     pluck(1) %>%
     head(-1) %>%
     str_split("[{]")
 
   tibble(
-      rule = map_chr(rules, 1),
+      rule = str_trim(map_chr(rules, 1)),
       data = str_split(map_chr(rules, 2), ";(?!base64)") %>%
         map(str_trim) %>%
         map(not_empty)
