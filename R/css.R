@@ -55,10 +55,9 @@ write_css <- function(data, path, ...){
   data %>%
     mutate( text = glue("{setting}: {value} ; ") ) %>%
     group_by(rule) %>%
-    summarise( glue(
-      "[rule][\n[text]\n}\n",
-      text = paste0( "  ", paste(text, collapse = "\n") ),
-      open = "[", close = "]"
+    summarise( text = paste(paste("  ", text ), collapse = "\n") ) %>%
+    mutate( glue(
+      "{rule} {{ \n{text} \n }}\n"
     ) ) %>%
     pull() %>%
     write_lines(path, ...)

@@ -62,7 +62,7 @@ data <- data %>%
 
 tf <- tempfile()
 write_css(data, tf)
-writeLines( read_lines(data, n_max = 10))
+writeLines( read_lines(tf, n_max = 10))
 ```
 
 
