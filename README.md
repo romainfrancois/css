@@ -35,9 +35,9 @@ data <- read_css(dracula)
 glimpse(data)
 #> Observations: 626
 #> Variables: 3
-#> $ rule    <chr> ".ace_gutter", ".ace_gutter", ".ace_print-margin", ".a...
-#> $ setting <chr> "background", "color", "width", "background", "backgro...
-#> $ value   <chr> " #282a36", " rgb(144,145,148)", " 1px", " #e8e8e8", "...
+#> $ rule     <chr> ".ace_gutter ", ".ace_gutter ", ".ace_print-margin ",...
+#> $ property <chr> "background", "color", "width", "background", "backgr...
+#> $ value    <chr> "#282a36", "rgb(144,145,148)", "1px", "#e8e8e8", "#28...
 DT::datatable(data)
 ```
 
@@ -48,21 +48,21 @@ You can then tidyverse it a bit and then save it back to a file using `write_css
 ``` r
 data <- data %>% 
   mutate( value = case_when(
-    setting == "background-color" ~ "#ff0000", 
-    TRUE                          ~ value
+    property == "background-color" ~ "#ff0000", 
+    TRUE                           ~ value
   ))
 
 tf <- tempfile()
 write_css(data, tf)
 writeLines( read_lines(tf, n_max = 10))
-#> .ace_bracket { 
-#>    margin:  0 !important ; 
-#>    border:  0 !important ; 
+#> .ace_bracket  { 
+#>    margin: 0 !important ; 
+#>    border: 0 !important ; 
 #>    background-color: #ff0000 ; 
-#>    margin:  0 !important ; 
-#>    border:  0 !important ; 
+#>    margin: 0 !important ; 
+#>    border: 0 !important ; 
 #>    background-color: #ff0000 ;  
 #>  }
-#> .ace_comment { 
-#>    color:  #6272a4 ;
+#> .ace_comment  { 
+#>    color: #6272a4 ;
 ```

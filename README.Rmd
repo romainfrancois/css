@@ -56,8 +56,8 @@ You can then tidyverse it a bit and then save it back to a file using `write_css
 ```{r}
 data <- data %>% 
   mutate( value = case_when(
-    setting == "background-color" ~ "#ff0000", 
-    TRUE                          ~ value
+    property == "background-color" ~ "#ff0000", 
+    TRUE                           ~ value
   ))
 
 tf <- tempfile()
