@@ -3,6 +3,8 @@ not_empty <- function(x){
   x[ x != ""]
 }
 
+tokenize_css <- function(txt) .Call(tokenize_css_impl, txt)
+
 #' read a css file into a tibble
 #'
 #' @param file css file to parse, read with [readr::read_file()] so can be a url
@@ -10,36 +12,19 @@ not_empty <- function(x){
 #'
 #' @return a tibble with columns:
 #' - rule: the name of the css rule e.g. `.some-css-class`
-#' - setting: the name of a setting, e.g. `background-image`
+#' - property: the name of a property, e.g. `background-image`
 #' - value: value of the setting, e.g. `1px solid black`
 #'
-#' @importFrom stringr str_replace_all str_split str_trim
 #' @importFrom readr read_file
-#' @importFrom purrr pluck map map_chr
-#' @importFrom tibble tibble
-#' @importFrom tidyr separate unnest
 #' @importFrom magrittr %>%
-#' @importFrom utils head
 #' @export
-read_css <- function( file, ... ){
-
-  rules <- read_file(file, ...) %>%
+read_css <- function(file, ...){
+  txt <- read_file(file, ...) %>%
     gsub( "/[*].*?[*]/", "", . ) %>%
-    str_split("[}]") %>%
-    pluck(1) %>%
-    head(-1) %>%
-    str_split("[{]")
-
-  tibble(
-      rule = str_trim(map_chr(rules, 1)),
-      data = str_split(map_chr(rules, 2), ";(?!base64)") %>%
-        map(str_trim) %>%
-        map(not_empty)
-    ) %>%
-    unnest() %>%
-    separate( data, into = c( "setting", "value" ), sep = ":", extra = "merge")
-
+    gsub( "//.?\n", "\n", . ) %>%
+    tokenize_css()
 }
+
 
 #' write css tibble into file
 #'
@@ -53,7 +38,7 @@ read_css <- function( file, ... ){
 #' @export
 write_css <- function(data, path, ...){
   data %>%
-    mutate( text = glue("{setting}: {value} ; ") ) %>%
+    mutate( text = glue("{property}: {value} ; ") ) %>%
     group_by(rule) %>%
     summarise( text = paste(paste("  ", text ), collapse = "\n") ) %>%
     mutate( glue(
@@ -65,4 +50,5 @@ write_css <- function(data, path, ...){
 
 
 #' @importFrom utils globalVariables
-globalVariables(c("data", "rule", "setting", "value", ".", "text"))
+globalVariables(c("data", "rule", "property", "value", ".", "text"))
+

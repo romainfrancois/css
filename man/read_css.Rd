@@ -15,7 +15,7 @@ read_css(file, ...)
 a tibble with columns:
 \itemize{
 \item rule: the name of the css rule e.g. \code{.some-css-class}
-\item setting: the name of a setting, e.g. \code{background-image}
+\item property: the name of a property, e.g. \code{background-image}
 \item value: value of the setting, e.g. \code{1px solid black}
 }
 }
