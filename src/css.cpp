@@ -3,13 +3,18 @@
 #include <R.h>
 #include <Rinternals.h>
 
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <limits>
 #include <iostream>
 
+inline bool is_white_space(char c){
+  return c == '\n' || c == ' ' || c == '\t' ;
+}
+
 const char* skip_space(const char* p){
-  while( *p == '\n' || *p == ' ' || *p == '\t') p++ ;
+  while( is_white_space(*p) ) p++ ;
   return p ;
 }
 
@@ -22,10 +27,12 @@ const char* parse_rulename(std::string& s, const char *p){
   }
 
   // move back to trim space
-  const char* end = p ;
-  while( *end == ' ') --end ;
+  const char* end = p - 1;
+  while( is_white_space(*end) ) --end ;
 
-  s.assign(start, end) ;
+  s.assign(start, end+1) ;
+  std::replace( s.begin(), s.end(), '\n', ' ') ;
+
   p++ ;
   return p ;
 }
@@ -37,10 +44,10 @@ const char* parse_declaration( std::string& s, const char* p){
   while( *p != ':' ) p++ ;
 
   // move back to trim space
-  const char* end = p ;
-  while( *end == ' ') --end ;
+  const char* end = p - 1;
+  while( is_white_space(*end) ) --end ;
 
-  s.assign( start, end ) ;
+  s.assign( start, end + 1) ;
   p++ ; // also skip the ':'
   return p ;
 }
