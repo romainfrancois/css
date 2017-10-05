@@ -18,6 +18,11 @@ const char* skip_space(const char* p){
   return p ;
 }
 
+const char* rewind_space( const char* p){
+  while( is_white_space(*p) ) --p ;
+  return p + 1;
+}
+
 const char* parse_rulename(std::string& s, const char *p){
   const char* start = p ;
 
@@ -27,10 +32,9 @@ const char* parse_rulename(std::string& s, const char *p){
   }
 
   // move back to trim space
-  const char* end = p - 1;
-  while( is_white_space(*end) ) --end ;
+  const char* end = rewind_space(p - 1);
 
-  s.assign(start, end+1) ;
+  s.assign(start, end) ;
   std::replace( s.begin(), s.end(), '\n', ' ') ;
 
   p++ ;
@@ -44,10 +48,9 @@ const char* parse_declaration( std::string& s, const char* p){
   while( *p != ':' ) p++ ;
 
   // move back to trim space
-  const char* end = p - 1;
-  while( is_white_space(*end) ) --end ;
+  const char* end = rewind_space(p - 1);
 
-  s.assign( start, end + 1) ;
+  s.assign( start, end ) ;
   p++ ; // also skip the ':'
   return p ;
 }
@@ -74,9 +77,7 @@ const char* parse_value( std::string& s, const char* p ){
     case '}':
     case ';':
       {
-        const char* end = p ;
-        while( *p == ' ') --end ;
-        s.assign( start, end ) ;
+        s.assign( start, rewind_space(p-1) ) ;
         return p ;
       }
     case '"':
