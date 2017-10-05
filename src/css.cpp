@@ -105,7 +105,6 @@ extern "C" SEXP tokenize_css_impl( SEXP txt ){
   std::vector< std::string > values ;
 
   while(true){
-    R_CheckUserInterrupt();
 
     // the rule name
     p = skip_space(p) ;
