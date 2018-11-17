@@ -1,7 +1,7 @@
 Package: css
 Title: Tools for parsing css files
 Version: 0.0.0.9000
-Authors@R: person("Romain", "François", email = "romain@thinkr.fr", role = c("aut", "cre"))
+Authors@R: person("Romain", "François", email = "rstudio.com", role = c("aut", "cre"))
 Description: css tools for R.
 Depends: R (>= 3.4.0)
 License: MIT + file LICENSE
